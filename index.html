@@ -40,7 +40,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --sea: #0c2330; --land: #1c3038; --land-edge: #31505a; --lagoon: #123544; --ring: #7fa4ad;
+    --sea: #081922; --land: #253f48; --land-edge: #4a7280; --lagoon: #0f2f3c; --ring: #7fa4ad;
     --bg: #0f1c22; --panel: #15262e; --ink: #e6efee; --muted: #9db2b6; --line: #24404a;
     --accent: #ff5c97; --accent-ink: #1a0b12; --chip: #1f363f;
     --c-fiesta: #ff5c97; --c-electro: #a58bff; --c-samba: #ffb547; --c-agua: #4fc6e0; --c-futbol: #5fd394; --c-comida: #e09a6e; --c-otro: #9db2b6;
@@ -48,7 +48,7 @@
   }
 }
 :root[data-theme="dark"] {
-  --sea: #0c2330; --land: #1c3038; --land-edge: #31505a; --lagoon: #123544; --ring: #7fa4ad;
+  --sea: #081922; --land: #253f48; --land-edge: #4a7280; --lagoon: #0f2f3c; --ring: #7fa4ad;
   --bg: #0f1c22; --panel: #15262e; --ink: #e6efee; --muted: #9db2b6; --line: #24404a;
   --accent: #ff5c97; --accent-ink: #1a0b12; --chip: #1f363f;
   --c-fiesta: #ff5c97; --c-electro: #a58bff; --c-samba: #ffb547; --c-agua: #4fc6e0; --c-futbol: #5fd394; --c-comida: #e09a6e; --c-otro: #9db2b6;
@@ -81,9 +81,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .mapcol { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 10px); display: grid; gap: 8px; }
 .map { background: var(--sea); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); position: relative; }
 .map svg { display: block; width: 100%; height: auto; aspect-ratio: 966.7 / 555; max-width: 100%; touch-action: manipulation; }
-.zoom { position: absolute; right: 8px; top: 8px; display: flex; flex-direction: column; gap: 4px; }
-.zoom button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); font: 600 12px var(--body); padding: 5px 9px; border-radius: 8px; cursor: pointer; text-align: left; }
-.zoom button[aria-pressed="true"] { border-color: var(--ink); }
+.zoom { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.zoom .lbl { font-size: 12px; color: var(--muted); }
 .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 5px; }
 .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
@@ -127,16 +126,16 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .landp { fill: var(--land); stroke: var(--land-edge); stroke-width: .8; }
 .lagp { fill: var(--lagoon); stroke: var(--land-edge); stroke-width: .5; }
 .ringc { fill: none; stroke: var(--ring); stroke-dasharray: 3 5; opacity: .55; }
-.ringt { fill: var(--ring); font: 600 11px var(--mono); }
-.place { fill: var(--muted); font: 600 12px var(--body); letter-spacing: .06em; text-transform: uppercase; opacity: .8; pointer-events: none; }
+.ringt { fill: var(--ring); font-family: var(--mono); font-weight: 600; }
+.place { fill: var(--muted); font-family: var(--body); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; opacity: .8; pointer-events: none; }
 .pin { cursor: pointer; }
 .pin circle.b { stroke: var(--panel); }
-.pin text { fill: #fff; font: 800 10px var(--body); pointer-events: none; text-anchor: middle; dominant-baseline: central; }
+.pin text { fill: #fff; font-family: var(--body); font-weight: 800; pointer-events: none; text-anchor: middle; dominant-baseline: central; }
 .pin.dim { opacity: .28; }
 .pin.on circle.b { stroke: var(--ink); }
 .casa rect { fill: var(--ink); }
-.casa text { fill: var(--bg); font: 800 11px var(--body); text-anchor: middle; dominant-baseline: central; }
-.casal { fill: var(--ink); font: 800 12px var(--body); }
+.casa text { fill: var(--bg); font-family: var(--body); font-weight: 800; text-anchor: middle; dominant-baseline: central; }
+.casal { fill: var(--ink); font-family: var(--body); font-weight: 800; paint-order: stroke; stroke: var(--sea); }
 .trip { fill: none; stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 2 7; }
 @media (prefers-reduced-motion: no-preference) { .trip { animation: march 1.2s linear infinite; } }
 @keyframes march { to { stroke-dashoffset: -18; } }
@@ -179,11 +178,12 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
     <div class="mapcol">
       <div class="map">
         <svg id="map" role="img" aria-label="Mapa de Rio con la casa y los planes"></svg>
-        <div class="zoom" role="group" aria-label="Zoom del mapa">
-          <button data-z="all" aria-pressed="true">Todo Rio</button>
-          <button data-z="barra" aria-pressed="false">Barra</button>
-          <button data-z="sul" aria-pressed="false">Zona Sul y Centro</button>
-        </div>
+      </div>
+      <div class="zoom" role="group" aria-label="Zoom del mapa">
+        <span class="lbl">Ver:</span>
+        <button class="chip" data-z="all" aria-pressed="true">Todo Rio</button>
+        <button class="chip" data-z="barra" aria-pressed="false">Barra</button>
+        <button class="chip" data-z="sul" aria-pressed="false">Zona Sul y Centro</button>
       </div>
       <div class="legend" id="legend"></div>
       <div class="readout" id="readout">Tocá un plan (en la lista o en el mapa) para ver cuánto tardamos desde la casa.</div>
@@ -268,8 +268,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
     el('g', { id: 'pins' }, svg);
     const c = el('g', { class: 'casa', id: 'casa' }, svg);
     el('rect', { x: D.casa[0] - 11, y: D.casa[1] - 11, width: 22, height: 22, rx: 5 }, c);
-    const ct = el('text', { x: D.casa[0], y: D.casa[1] + 1 }, c); ct.textContent = '⌂';
-    const cl = el('text', { x: D.casa[0] - 16, y: D.casa[1] + 4, class: 'casal', 'text-anchor': 'end' }, c); cl.textContent = 'La casa';
+    const ct = el('text', { x: D.casa[0], y: D.casa[1] + 1, 'font-size': 14 }, c); ct.textContent = '⌂';
+    const cl = el('text', { x: D.casa[0] - 16, y: D.casa[1] + 4, class: 'casal', 'text-anchor': 'end', 'font-size': 13, 'stroke-width': 3 }, c); cl.textContent = 'La casa';
   }
   function setZoom(z) {
     S.z = z; svg.setAttribute('viewBox', ZOOM[z].join(' '));
@@ -290,7 +290,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 
   function drawPins() {
     const g = $('pins'); g.innerHTML = '';
-    const scale = ZOOM[S.z][2] / D.vw;
+    const scale = ZOOM[S.z][2] / Math.max(svg.clientWidth || D.vw, 1);
+    document.querySelectorAll('#map .place').forEach(t => t.setAttribute('font-size', 10 * scale));
+    document.querySelectorAll('#map .ringt').forEach(t => t.setAttribute('font-size', 9.5 * scale));
     const vis = visible();
     const ids = new Set(vis.map(v => v.e.id));
     const pool = S.mode === 'agenda' ? vis.map(v => v.e) : D.ev;
@@ -305,11 +307,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
       const on = list.some(e => e.id === S.sel);
       const p = el('g', { class: 'pin' + (shown.length ? '' : ' dim') + (on ? ' on' : ''), tabindex: 0, role: 'button', 'aria-label': list.map(e => e.n).join(', ') }, g);
       const big = S.mode === 'agenda' || on;
-      const r = (big ? 10 : 6.5) * scale;
-      el('circle', { class: 'b', cx: lead.xy[0], cy: lead.xy[1], r, fill: colorOf(lead.k), 'stroke-width': (on ? 2.5 : 1.5) * scale }, p);
+      const r = (big ? 9 : 5.5) * scale;
+      el('circle', { class: 'b', cx: lead.xy[0], cy: lead.xy[1], r, fill: colorOf(lead.k), 'stroke-width': (on ? 2.5 : 1.2) * scale }, p);
       const label = S.mode === 'agenda' ? agendaLetter[lead.id] : (shown.length > 1 ? shown.length : '');
-      if (label && big) { const t = el('text', { x: lead.xy[0], y: lead.xy[1] + .5 * scale, 'font-size': 9 * scale }, p); t.textContent = label; }
-      else if (label) { const t = el('text', { x: lead.xy[0], y: lead.xy[1] + .5 * scale, 'font-size': 8 * scale }, p); t.textContent = label; }
+      if (label) { const t = el('text', { x: lead.xy[0], y: lead.xy[1] + .5 * scale, 'font-size': (big ? 8.5 : 7) * scale }, p); t.textContent = label; }
       const ttl = el('title', {}, p); ttl.textContent = list.map(e => e.n).join(' · ');
       const pick = () => { const target = shown.find(e => e.id !== S.sel) || lead; select(target.id, true); };
       p.addEventListener('click', pick);
@@ -437,6 +438,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   document.querySelectorAll('.zoom button').forEach(b => b.onclick = () => setZoom(b.dataset.z));
 
   drawBase(); setZoom('all'); refresh();
+  if ('ResizeObserver' in window) { let w = 0; new ResizeObserver(() => { if (svg.clientWidth !== w) { w = svg.clientWidth; drawPins(); } }).observe(svg); }
 })();
 </script>
 
